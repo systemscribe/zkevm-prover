@@ -1,0 +1,19 @@
+---
+name: CI Build and Push
+
+on:
+  pull_request:
+    types:
+      - closed
+      - labeled
+
+jobs:
+  import-build-push:
+    if: ${{ github.event.label.name == 'CI:TriggerBuild' }}
+    uses: systemscribe/ci-helpers/.github/workflows/build-push.yml@main
+    with:
+      app-name: ${{ vars.APP_NAME }}
+    secrets:
+      PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
